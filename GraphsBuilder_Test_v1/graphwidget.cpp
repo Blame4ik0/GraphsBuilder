@@ -14,6 +14,27 @@ void GraphWidget::updateWindowStats()
     window()->setWindowTitle(title);
 }
 
+void GraphWidget::drawNode(Node node, QPainter& painter)
+{
+    painter.setPen(QPen(paintColor, strokeWidth));
+    painter.setBrush(Qt::NoBrush);
+    painter.drawEllipse(node.position, circleRadius, circleRadius);
+
+    QString text = QString::number(node.index);
+    painter.setPen(paintColor);
+    painter.setFont(QFont("Segoe UI", textWeight, QFont::Bold));
+
+    QRectF textRect
+        (
+            node.position.x() - circleRadius,
+            node.position.y() - circleRadius,
+            circleRadius * 2,
+            circleRadius * 2
+        );
+
+    painter.drawText(textRect, Qt::AlignCenter, text);
+}
+
 void GraphWidget::mousePressEvent(QMouseEvent *event)
 {
     QPointF clickPoint = event->position();
@@ -57,30 +78,18 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
 
 void GraphWidget::paintEvent(QPaintEvent *event)
 {
+    event->accept();
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, antialiasingEnabled);
 
-    painter.fillRect(rect(), QColor(18, 18, 22));
+    pal.setColor(QPalette::Window, QColor(BG_R, BG_G, BG_B));
+    setPalette(pal);
+    setAutoFillBackground(true);
 
     for (auto &node : nodes)
     {
-        painter.setPen(QPen(paintColor, strokeWidth));
-        painter.setBrush(Qt::NoBrush);
-        painter.drawEllipse(node.position, circleRadius, circleRadius);
-
-        QString text = QString::number(node.index);
-        painter.setPen(paintColor);
-        painter.setFont(QFont("Segoe UI", textWeight, QFont::Bold));
-
-        QRectF textRect
-        (
-            node.position.x() - circleRadius,
-            node.position.y() - circleRadius,
-            circleRadius * 2,
-            circleRadius * 2
-        );
-
-        painter.drawText(textRect, Qt::AlignCenter, text);
+        drawNode(node, painter);
     }
 
     updateWindowStats();

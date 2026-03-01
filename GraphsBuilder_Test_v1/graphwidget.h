@@ -7,7 +7,10 @@
 #include <QPainter>
 #include <QList>
 #include <QtMath>
-#include <QElapsedTimer>
+
+#define BG_R 18
+#define BG_G 18
+#define BG_B 22
 
 struct Node
 {
@@ -43,7 +46,9 @@ private:
 
     bool antialiasingEnabled = true;
 
-signals:
+    void drawNode(Node node, QPainter& painter);
+
+    QPalette pal = palette();
 };
 
 #endif // GRAPHWIDGET_H
