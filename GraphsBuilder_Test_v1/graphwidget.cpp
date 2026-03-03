@@ -1,10 +1,18 @@
 #include "graphwidget.h"
 
+// ----------------------- INIT PART -----------------------
+
 GraphWidget::GraphWidget(QWidget *parent)
     : QWidget{parent}
 {
     setFocusPolicy(Qt::StrongFocus);
+
+    pal.setColor(QPalette::Window, QColor(BG_R, BG_G, BG_B));
+    setPalette(pal);
+    setAutoFillBackground(true);
 }
+
+// ----------------------- UPDATES -----------------------
 
 void GraphWidget::updateWindowStats()
 {
@@ -14,7 +22,36 @@ void GraphWidget::updateWindowStats()
     window()->setWindowTitle(title);
 }
 
-void GraphWidget::drawNode(Node node, QPainter& painter)
+// ----------------------- HELPERS -----------------------
+
+double GraphWidget::distanceBetweenPointsSqr(QPointF &p1, QPointF &p2)
+{
+    double dx = p1.x() - p2.x();
+    double dy = p1.y() - p2.y();
+
+    return dx*dx + dy*dy;
+}
+
+bool GraphWidget::isTooClose(QPointF &p1, QPointF &p2, double minDist)
+{
+    return (distanceBetweenPointsSqr(p1, p2) < minDist*minDist);
+}
+
+int GraphWidget::nodeIndexFinder(QPointF &pos, double distance)
+{
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        Node &p = nodes[i];
+
+        if (distanceBetweenPointsSqr(pos, p.position) <= distance*distance) return i;
+    }
+
+    return -1;
+}
+
+// ----------------------- DRAWING -----------------------
+
+void GraphWidget::drawNode(Node &node, QPainter& painter)
 {
     painter.setPen(QPen(paintColor, strokeWidth));
     painter.setBrush(Qt::NoBrush);
@@ -30,10 +67,12 @@ void GraphWidget::drawNode(Node node, QPainter& painter)
             node.position.y() - circleRadius,
             circleRadius * 2,
             circleRadius * 2
-        );
+            );
 
     painter.drawText(textRect, Qt::AlignCenter, text);
 }
+
+// ----------------------- EVENTS HANDLING -----------------------
 
 void GraphWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -41,18 +80,31 @@ void GraphWidget::mousePressEvent(QMouseEvent *event)
 
     if (event->button() == Qt::LeftButton)
     {
-        nodes.append({clickPoint, followingIndex++});
-        update();
+        bool tooClose = false;
+        for (Node &node : nodes)
+        {
+            if (isTooClose(clickPoint, node.position, 2*clickRadius + PLACEMENT_CONSTANT))
+            {
+                tooClose = true;
+                break;
+            }
+        }
+
+        if (!tooClose)
+        {
+            nodes.append({clickPoint, followingIndex++});
+        }
     }
     else if (event->button() == Qt::RightButton)
     {
-        int idx = nodeIndexFinder(clickPoint);
+        int idx = nodeIndexFinder(clickPoint, clickRadius);
         if (idx >= 0)
         {
             nodes.removeAt(idx);
-            update();
         }
     }
+
+    update();
 }
 
 void GraphWidget::keyPressEvent(QKeyEvent *event)
@@ -67,7 +119,7 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
 
     case Qt::Key_A:
         antialiasingEnabled = !antialiasingEnabled;
-        update();
+        updateWindowStats();
         break;
 
     default:
@@ -78,33 +130,11 @@ void GraphWidget::keyPressEvent(QKeyEvent *event)
 
 void GraphWidget::paintEvent(QPaintEvent *event)
 {
-    event->accept();
-
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, antialiasingEnabled);
 
-    pal.setColor(QPalette::Window, QColor(BG_R, BG_G, BG_B));
-    setPalette(pal);
-    setAutoFillBackground(true);
-
-    for (auto &node : nodes)
+    for (Node &node : nodes)
     {
         drawNode(node, painter);
     }
-
-    updateWindowStats();
-}
-
-int GraphWidget::nodeIndexFinder(QPointF &pos)
-{
-    for (int i = 0; i < nodes.size(); i++)
-    {
-        Node &p = nodes[i];
-        double dx = p.position.x() - pos.x();
-        double dy = p.position.y() - pos.y();
-
-        if (qHypot(dx, dy) <= clickRadius) return i;
-    }
-
-    return -1;
 }
