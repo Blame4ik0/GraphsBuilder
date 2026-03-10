@@ -18,10 +18,36 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>39</y>
       <width>1280</width>
-      <height>720</height>
+      <height>681</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="colorOpener">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>91</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Select colour</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weightVal">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>20</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

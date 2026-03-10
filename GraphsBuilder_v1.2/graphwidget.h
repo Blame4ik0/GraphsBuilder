@@ -26,6 +26,10 @@ class GraphWidget : public QWidget
 public:
     explicit GraphWidget(QWidget *parent = nullptr);
 
+    QColor paintColor = Qt::darkBlue;
+
+    void setPaintColor(const QColor &color);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
@@ -43,7 +47,6 @@ private:
     const double circleRadius = 20.0f;
     const double clickRadius = circleRadius + CLICK_CONSTANT;
 
-    const QColor paintColor = Qt::green;
     const double strokeWidth = 2.8f;
     const double textWeight = 11.0f;
 

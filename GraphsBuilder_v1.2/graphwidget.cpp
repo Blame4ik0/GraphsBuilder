@@ -49,6 +49,12 @@ int GraphWidget::nodeIndexFinder(QPointF &pos, double distance)
     return -1;
 }
 
+void GraphWidget::setPaintColor(const QColor &color)
+{
+    paintColor = color;
+    update();
+}
+
 // ----------------------- DRAWING -----------------------
 
 void GraphWidget::drawNode(Node &node, QPainter& painter)

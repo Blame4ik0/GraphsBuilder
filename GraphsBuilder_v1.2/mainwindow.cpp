@@ -6,14 +6,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    resize(WINDOW_W, WINDOW_H);
-    setFixedSize(WINDOW_W, WINDOW_H);
-    ui->widget->resize(WINDOW_W, WINDOW_H);
-    ui->widget->setFixedSize(WINDOW_W, WINDOW_H);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_colorOpener_clicked()
+{
+    QColor color = QColorDialog::getColor(
+        ui->widget->paintColor,
+        this,
+        "Select node colour"
+        );
+
+    if (color.isValid()) ui->widget->setPaintColor(color);
+}
+

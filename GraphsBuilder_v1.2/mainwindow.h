@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "graphwidget.h"
+#include <QColorDialog>
 
 #define WINDOW_W 1280
 #define WINDOW_H 720
@@ -19,6 +21,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+
+    void on_colorOpener_clicked();
 
 private:
     Ui::MainWindow *ui;
