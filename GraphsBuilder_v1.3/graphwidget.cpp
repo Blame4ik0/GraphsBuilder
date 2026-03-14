@@ -90,7 +90,7 @@ int GraphWidget::edgeIndexFinder (QPointF &p, double tol)
 void GraphWidget::drawNode (Node &node, QPainter &p)
 {
     p.setPen(QPen(paintColor, strokeWidth));
-    p.setBrush(Qt::NoBrush);
+    p.setBrush(QColor(BG_R, BG_G, BG_B));
     p.drawEllipse(node.position, circleRadius, circleRadius);
 
     p.setPen(paintColor);
@@ -102,7 +102,7 @@ void GraphWidget::drawNode (Node &node, QPainter &p)
             node.position.y() - circleRadius,
             circleRadius * 2,
             circleRadius * 2
-            );
+        );
 
     p.drawText(textRect, Qt::AlignCenter, QString::number(node.index));
 }
