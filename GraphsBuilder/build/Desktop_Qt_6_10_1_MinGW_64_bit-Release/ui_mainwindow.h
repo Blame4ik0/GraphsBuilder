@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
@@ -24,9 +25,14 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     GraphWidget *widget;
+    QWidget *widget1;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *save;
+    QPushButton *load;
     QPushButton *colorOpener;
     QPushButton *vertexSelect;
     QPushButton *edgeSelect;
+    QPushButton *moveModeSelect;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -38,19 +44,52 @@ public:
         widget = new GraphWidget(centralwidget);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(0, 39, 1280, 681));
-        colorOpener = new QPushButton(centralwidget);
+        widget1 = new QWidget(centralwidget);
+        widget1->setObjectName("widget1");
+        widget1->setGeometry(QRect(230, 10, 741, 26));
+        horizontalLayout = new QHBoxLayout(widget1);
+        horizontalLayout->setObjectName("horizontalLayout");
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        save = new QPushButton(widget1);
+        save->setObjectName("save");
+        QIcon icon(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs));
+        save->setIcon(icon);
+
+        horizontalLayout->addWidget(save);
+
+        load = new QPushButton(widget1);
+        load->setObjectName("load");
+        QIcon icon1(QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen));
+        load->setIcon(icon1);
+
+        horizontalLayout->addWidget(load);
+
+        colorOpener = new QPushButton(widget1);
         colorOpener->setObjectName("colorOpener");
-        colorOpener->setGeometry(QRect(10, 10, 91, 24));
-        vertexSelect = new QPushButton(centralwidget);
+
+        horizontalLayout->addWidget(colorOpener);
+
+        vertexSelect = new QPushButton(widget1);
         vertexSelect->setObjectName("vertexSelect");
-        vertexSelect->setGeometry(QRect(121, 10, 80, 24));
-        QIcon icon(QIcon::fromTheme(QIcon::ThemeIcon::DriveOptical));
-        vertexSelect->setIcon(icon);
-        edgeSelect = new QPushButton(centralwidget);
+        QIcon icon2(QIcon::fromTheme(QIcon::ThemeIcon::DriveOptical));
+        vertexSelect->setIcon(icon2);
+
+        horizontalLayout->addWidget(vertexSelect);
+
+        edgeSelect = new QPushButton(widget1);
         edgeSelect->setObjectName("edgeSelect");
-        edgeSelect->setGeometry(QRect(210, 10, 80, 24));
-        QIcon icon1(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
-        edgeSelect->setIcon(icon1);
+        QIcon icon3(QIcon::fromTheme(QIcon::ThemeIcon::GoUp));
+        edgeSelect->setIcon(icon3);
+
+        horizontalLayout->addWidget(edgeSelect);
+
+        moveModeSelect = new QPushButton(widget1);
+        moveModeSelect->setObjectName("moveModeSelect");
+        QIcon icon4(QIcon::fromTheme(QIcon::ThemeIcon::InputMouse));
+        moveModeSelect->setIcon(icon4);
+
+        horizontalLayout->addWidget(moveModeSelect);
+
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -61,9 +100,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Graphs Builder v1.3", nullptr));
+        save->setText(QCoreApplication::translate("MainWindow", "Save File", nullptr));
+        load->setText(QCoreApplication::translate("MainWindow", "Load File", nullptr));
         colorOpener->setText(QCoreApplication::translate("MainWindow", "Select colour", nullptr));
         vertexSelect->setText(QCoreApplication::translate("MainWindow", "Vertex", nullptr));
         edgeSelect->setText(QCoreApplication::translate("MainWindow", "Edge", nullptr));
+        moveModeSelect->setText(QCoreApplication::translate("MainWindow", "Move", nullptr));
     } // retranslateUi
 
 };

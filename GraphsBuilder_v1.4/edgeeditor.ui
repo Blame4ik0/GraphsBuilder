@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EdgeEditor</class>
+ <widget class="QDialog" name="EdgeEditor">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>300</width><height>150</height></rect>
+  </property>
+  <property name="windowTitle">
+   <string>Edit Edge</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="dirLbl">
+     <property name="text"><string>Direction:</string></property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="dirCombo"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="weightLbl">
+     <property name="text"><string>Has weight:</string></property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="weightCheck"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="weightValLbl">
+     <property name="text"><string>Weight:</string></property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="weightSpin">
+     <property name="minimum"><double>-1000000.000000</double></property>
+     <property name="maximum"><double>1000000.000000</double></property>
+     <property name="decimals"><number>4</number></property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttons">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok|QDialogButtonBox::Cancel</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttons</sender><signal>accepted()</signal>
+   <receiver>EdgeEditor</receiver><slot>accept()</slot>
+   <hints><hint type="sourcelabel"><x>150</x><y>120</y></hint>
+          <hint type="destinationlabel"><x>150</x><y>75</y></hint></hints>
+  </connection>
+  <connection>
+   <sender>buttons</sender><signal>rejected()</signal>
+   <receiver>EdgeEditor</receiver><slot>reject()</slot>
+   <hints><hint type="sourcelabel"><x>150</x><y>120</y></hint>
+          <hint type="destinationlabel"><x>150</x><y>75</y></hint></hints>
+  </connection>
+ </connections>
+</ui>
